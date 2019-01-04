@@ -188,12 +188,7 @@ class WeatherElement extends HTMLElement {
     //     this.setData(this.getAttribute("city"))
     // }
 
-    initURL ( _city_ ) {
-        let source = "http://api.openweathermap.org/data/2.5/weather?"
-        let appid = "5ebc9334e1933914b46a2ba252a3ea99"
-        let units = "metric"
-        return `${source}q=${_city_}&appid=${appid}&units=${units}`
-    }
+
 
     // async  promise ( param ) {
     //     var response
@@ -209,18 +204,16 @@ class WeatherElement extends HTMLElement {
     //     })
     // }
 
-    async  promise ( param ) {
-        let response = await fetch ( param )
-        return new Promise ( function ( resolve, reject ) {
-            response.status === 200 ?
-                resolve( response.json() ) :
-                reject( response.message )
-        })
+    initURL ( _city_ ) {
+        let source = "https://api.openweathermap.org/data/2.5/weather?"
+        let appid = "5ebc9334e1933914b46a2ba252a3ea99"
+        let units = "metric"
+        return `${source}q=${_city_}&appid=${appid}&units=${units}`
     }
 
     getData ( c ) {
         var URL = this.initURL( c )
-        return  this.promise(URL)
+        return  this.promise( URL )
                         .then ( response => {
                             this.weatherData = response
                         })
@@ -254,6 +247,17 @@ class WeatherElement extends HTMLElement {
                             console.error ( error )
                         })
     }
+
+    async  promise ( param ) {
+        let response = await fetch ( param )
+        return new Promise ( function ( resolve, reject ) {
+            response.status === 200 ?
+                resolve( response.json() ) :
+                reject( response.message )
+        })
+    }
+
+
 
     updateDate() {
         let pic = this.shadow.lastElementChild.children[0].children[0]
@@ -297,9 +301,3 @@ customElements.define (
     "weather-element",
     WeatherElement
 )
-//
-// let elem = document.createElement ("weather-element")
-// document.body.appendChild(elem)
-
-// elem.setAttribute("city", "Kiev")
-// elem.updateUI()
