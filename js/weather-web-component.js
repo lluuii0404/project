@@ -179,30 +179,6 @@ class WeatherElement extends HTMLElement {
         this.setData( _city )
 
     }
-    // readAttributes () {
-  	// 	this._city = this.getAttribute( "city" ) || "Kharkiv";
-  	// }
-
-    // updateUI () {
-    //     console.log (this.getAttribute("city"))
-    //     this.setData(this.getAttribute("city"))
-    // }
-
-
-
-    // async  promise ( param ) {
-    //     var response
-    //     await fetch ( param ).then(resp => response = resp)
-    //     return new Promise ( function ( resolve, reject ) {
-    //         console.log ("Status ",response.status)
-    //         if (response.status === 200)
-    //             resolve(response.json())
-    //         else{
-    //             console.log ("Status ",response.status)
-    //             reject( response.message )
-    //         }
-    //     })
-    // }
 
     initURL ( _city_ ) {
         let source = "https://api.openweathermap.org/data/2.5/weather?"
@@ -211,53 +187,46 @@ class WeatherElement extends HTMLElement {
         return `${source}q=${_city_}&appid=${appid}&units=${units}`
     }
 
-    getData ( c ) {
+    async getData ( c ) {
         var URL = this.initURL( c )
-        return  this.promise( URL )
-                        .then ( response => {
-                            this.weatherData = response
-                        })
-                        .catch (error => {
-                            JSON.stringify(this.weatherData = {
-                                "weather": [
-                                  {
-                                    "description": "Unknown",
-                                    "icon": "Unknown"
-                                  }
-                                ],
-                                "main": {
-                                  "temp": "NaN",
-                                  "pressure": "NaN",
-                                  "humidity": "NaN",
-                                  "temp_min": "NaN",
-                                  "temp_max": "NaN"
-                                },
-                                "wind": {
-                                  "speed": "NaN"
-                                },
-                                "clouds": {
-                                  "all": "NaN"
-                                },
-                                "sys": {
-                                  "country": "",
-                                },
-                                "dt": "NaN",
-                                "name": "City not found"
-                            })
-                            console.error ( error )
-                        })
+
+        return await fetch ( URL ).then ( response => {
+                    if (response.status !== 200) {
+                        console.error(`Looks like there was a problem. Status Code: ${response.status}`);
+                        return this.weatherData = {
+                                   "weather": [
+                                     {
+                                       "description": "Unknown",
+                                       "icon": "Unknown"
+                                     }
+                                   ],
+                                   "main": {
+                                     "temp": "NaN",
+                                     "pressure": "NaN",
+                                     "humidity": "NaN",
+                                     "temp_min": "NaN",
+                                     "temp_max": "NaN"
+                                   },
+                                   "wind": {
+                                     "speed": "NaN"
+                                   },
+                                   "clouds": {
+                                     "all": "NaN"
+                                   },
+                                   "sys": {
+                                     "country": "",
+                                   },
+                                   "dt": "NaN",
+                                   "name": "City not found"
+                               }
+                    }
+                    response.json().then ( response => {
+                        this.weatherData = response })
+                })
+                .catch( err =>  {
+                  console.log('Fetch Error :-S', err);
+                })
     }
-
-    async  promise ( param ) {
-        let response = await fetch ( param )
-        return new Promise ( function ( resolve, reject ) {
-            response.status === 200 ?
-                resolve( response.json() ) :
-                reject( response.message )
-        })
-    }
-
-
 
     updateDate() {
         let pic = this.shadow.lastElementChild.children[0].children[0]
