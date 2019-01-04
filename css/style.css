@@ -1,0 +1,115 @@
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+html, body{
+  background-image: url(http://www.machapp.net/images/wallpapers/tcw-wallpaper-02.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  height: 100vh;
+  font-family: 'Neuton', serif;
+  font-size: 10px;
+  min-width: 320px;
+  transition: all .5s ease-in-out;
+}
+.header {
+  height: 12vh;
+  background-color: #00000075;
+  text-align: center;
+  position: relative;
+  padding-top: 2.7vh;
+  margin-bottom: 5vh;
+  width: 100%;
+}
+
+.search-btn {
+  width: 40px;
+  height:40px;
+  /* color: #eee; */
+  color: #ddd;
+}
+/* .search-txt {
+  color: red;
+  height: 40px;
+  border-style: none;
+  outline:none;
+  padding-right: 3px;
+  padding-left: 3px;
+  text-align: center;
+  width: 90%;
+  min-width: 270px;
+  border-radius: 10px;
+} */
+.search {
+  position: relative;
+  margin: 0 auto;
+  width: 50%;
+  min-width: 300px;
+  /* background-color: #fff; */
+  /* border-radius: 1em; */
+  font-size: 2em;
+}
+.search::after {
+  content: attr(data-text);
+  /* font-size: 1.8rem; */
+  line-height: 0;
+  height: 0;
+  /* max-width: 100%; */
+  /* font-family: Roboto, Arial, sans-serif; */
+  border-bottom: 3px solid #fff;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  overflow: hidden;
+  user-select: none;
+  color: transparent;
+}
+
+input {
+  color: #ddd;
+  border: none;
+  padding: 0.5em 0;
+  border-radius: 0;
+  outline: none;
+  /* width: auto; */
+  /* min-width: 100%; */
+  /* font-size: 1.rem; */
+  /* line-height: 1em; */
+  /* font-family: Roboto, Arial, sans-serif; */
+  border-bottom: 3px solid #333333;
+  background-color: transparent;
+
+
+  /* color: red; */
+  /* height: 40px; */
+  /* border-style: none; */
+  /* outline: none; */
+  /* padding-right: 3px; */
+  /* padding-left: 3px; */
+  text-align: center;
+  width: 90%;
+  min-width: 270px;
+  /* border-radius: 10px; */
+}
+
+.context{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 700px){
+  html, body{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+    transition: all .5s ease-in-out;
+  }
+
+
+}
