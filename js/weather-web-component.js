@@ -187,10 +187,10 @@ class WeatherElement extends HTMLElement {
         return `${source}q=${_city_}&appid=${appid}&units=${units}`
     }
 
-    async getData ( c ) {
+    getData ( c ) {
         var URL = this.initURL( c )
 
-        return await fetch ( URL ).then ( response => {
+        return fetch ( URL ).then ( response => {
                     if (response.status !== 200) {
                         console.error(`Looks like there was a problem. Status Code: ${response.status}`);
                         return this.weatherData = {
