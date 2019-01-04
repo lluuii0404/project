@@ -264,7 +264,7 @@ class WeatherElement extends HTMLElement {
         let wtr = this.shadow.lastElementChild.children[0].children[1]
         let additional = this.shadow.children[1].children[1]
 
-        pic.children[0].src = `http://openweathermap.org/img/w/${this.weatherData.weather[0].icon}.png`
+        pic.children[0].src = `https://openweathermap.org/img/w/${this.weatherData.weather[0].icon}.png`
         wtr.children[0].innerHTML = this.convertData(this.weatherData.dt)
         wtr.children[1].innerHTML = `${this.weatherData.name}, ${this.weatherData.sys.country}`
         wtr.children[2].innerHTML = `${Math.round(this.weatherData.main.temp)}°C`
