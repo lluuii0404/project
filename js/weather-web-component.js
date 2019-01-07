@@ -2,86 +2,44 @@ class WeatherElement extends HTMLElement {
      constructor () {
         super()
 
-        let weatherData
-
-        let _city = this.getAttribute("city") || "Kharkiv"
+        this.srcPic= ""
+        this.date = ""
+        this.cityName = this.getAttribute("city") || "Kharkiv"
+        this.temp = ""
+        this.clouds = ""
+        this.pressure = ""
+        this.humidity = ""
+        this.cloudness = ""
+        this.wind_speed = ""
+        this.min_temp = ""
+        this.max_temp = ""
 
         this.wrapper = document.createElement ( 'div' )
         this.wrapper.className = "wrapper"
-    		this.wrapper.innerHTML = `
-    			<div class="header-weather">
-    				<div class="icon">
-    					<img src="" alt="icon" class="current_icon">
-    				</div>
-    				<div class="description">
-    					<span class="current_date">date</span>
-    					<span class="current_city">city</span>
-    					<span class="current_temp">temp</span>
-    					<span class="current_desc">clouds</span>
-    				</div>
-    			</div>
 
-    			<div class="additional_desc">
-    				<div class="desc">
-    					<span>Pressure</span>
-    					<span>hPa</span>
-    				</div>
-    				<hr>
-    				<div class="desc">
-    					<span>Humidity</span>
-    					<span>%</span>
-    				</div>
-    				<hr>
-    				<div class="desc">
-    					<span>Cloudiness</span>
-    					<span>%</span>
-    				</div>
-    				<hr>
-    				<div class="desc">
-    					<span>Wind speed</span>
-    					<span>meter/sec</span>
-    				</div>
-            <hr>
-    				<div class="desc">
-    					<span>Min temp</span>
-    					<span>°C</span>
-    				</div>
-            <hr>
-    				<div class="desc">
-    					<span>Max temp</span>
-    					<span>°C</span>
-    				</div>
-    			</div>
-
-    			<div class="close">
-    				<button class="btn">
-              <hr class ="one">
-              <hr class ="two">
-    				</button>
-    			</div>
-        `
+        this.refillingForm()
 
         this.shadow = this.attachShadow({mode: "open"})
+
         let style = document.createElement("style")
         style.textContent = `
-            .wrapper{
+            .wrapper {
       				max-width: 240px;
       				min-width: 240px;
       				border-radius: 30px;
-      				margin: 0 auto;
       				display: flex;
       				justify-content: space-between;
       				align-items: center;
       				flex-direction: column;
       				padding: 10px;
       				box-shadow: 10px 10px 75px 2px rgba(0,0,0,0.62);
-      				background: rgba(255,255,255,0.3);
+      				background: rgba(255,255,255,0.45);
       				font-size: 10px;
       				position: relative;
               margin: 0 2vw 2rem 2vw;
               transition: all .5s ease-in-out;
       			}
-      			.header-weather{
+      			.header-weather {
       				display: flex;
       				justify-content: space-around;
       				align-items: center;
@@ -92,30 +50,30 @@ class WeatherElement extends HTMLElement {
       				padding: 10px 0;
       				margin-bottom: 1em;
       			}
-      			.current_icon{
+      			.current_icon {
       				padding-left: 5px;
       				width: 100px;
       			}
-      			.description span{
+      			.description span {
       				display: block;
       				margin-right: 10px;
       				text-align: center;
       			}
-      			.current_city{
+      			.current_city {
       				font-size: 22px;
               font-weight: bold;
       			}
-      			.current_temp{
+      			.current_temp {
       				font-size: 44px;
       			}
-      			.current_desc{
+      			.current_desc {
       				font-size: 18px;
       			}
-      			.current_date{
+      			.current_date {
       				font-size: 14px;
       			}
 
-      			.additional_desc{
+      			.additional_desc {
       				display: flex;
       				justify-content: space-between;
       				flex-direction: column;
@@ -137,145 +95,137 @@ class WeatherElement extends HTMLElement {
       				border: 0.5px solid black;
       			}
 
-            .close  {
-      				position: absolute;
-      				top: -10px;
-      				right: -10px;
-      			}
-            button{
+            button {
               margin: 0 ;
        				padding: 0;
-            }
-      			.btn{
-      				width: 20px;
-      				height: 20px;
+              position: absolute;
+              display: block;
+      				top: -20px;
+      				right: -15px;
+      				width: 30px;
+      				height: 30px;
       				border-radius: 15px;
        				background: #ffffff00;
       				border-style: none;
        			  outline: none;
-       				margin: 0 ;
-       				padding: 0;
-        			color: #00000040;
-              transform: rotate(45deg);
-      			}
-            .one {
-                border: 1px solid #000000;
-                width: 15px;
-                transform: rotate(90deg);
+        			color: #000000;
+              font-size: 30px;
+              z-index:100;
             }
-            .two {
-                border: 1px solid #000000;
-                width: 15px;
-                transform: translate(0px, -3px);
+            error-element {
+              margin: 0 auto;
+              position: absolute;
+              bottom: 5vw;
+              right: 5vw;
+              z-index: 10;
+              transition: all .5s ease-in-out;
             }
         `
 
         this.shadow.appendChild ( style )
         this.shadow.appendChild ( this.wrapper )
 
-        this.btnClose = this.shadow.children[1].children[2].children[0]
-        this.btnClose.addEventListener("click", this.close.bind(this));
-
-        this.setData( _city )
-
+        this.getData( this.cityName )
     }
-    // readAttributes () {
-  	// 	this._city = this.getAttribute( "city" ) || "Kharkiv";
-  	// }
 
-    // updateUI () {
-    //     console.log (this.getAttribute("city"))
-    //     this.setData(this.getAttribute("city"))
-    // }
+    refillingForm () {
+        this.wrapper.innerHTML = `
+    			<div class="header-weather">
+    				<div class="icon">
+    					<img src="${this.srcPic}" alt="icon" class="current_icon">
+    				</div>
+    				<div class="description">
+    					<span class="current_date">${this.date}</span>
+    					<span class="current_city">${this.cityName}</span>
+    					<span class="current_temp">${this.temp}</span>
+    					<span class="current_desc">${this.clouds}</span>
+    				</div>
+    			</div>
 
+    			<div class="additional_desc">
+    				<div class="desc">
+    					<span>Pressure</span>
+    					<span>${this.pressure}hPa</span>
+    				</div>
+    				<hr>
+    				<div class="desc">
+    					<span>Humidity</span>
+    					<span>${this.humidity}%</span>
+    				</div>
+    				<hr>
+    				<div class="desc">
+    					<span>Cloudiness</span>
+    					<span>${this.cloudness}%</span>
+    				</div>
+    				<hr>
+    				<div class="desc">
+    					<span>Wind speed</span>
+    					<span>${this.wind_speed}m/s</span>
+    				</div>
+            <hr>
+    				<div class="desc">
+    					<span>Min temp</span>
+    					<span>${this.min_temp}°C</span>
+    				</div>
+            <hr>
+    				<div class="desc">
+    					<span>Max temp</span>
+    					<span>${this.max_temp}°C</span>
+    				</div>
+    			</div>
+          <button > x </button>
+        `
+        this.wrapper.querySelector("button")
+            .onclick = function (event) {
+                  this.remove()
+              }.bind(this)
+    }
 
-
-    // async  promise ( param ) {
-    //     var response
-    //     await fetch ( param ).then(resp => response = resp)
-    //     return new Promise ( function ( resolve, reject ) {
-    //         console.log ("Status ",response.status)
-    //         if (response.status === 200)
-    //             resolve(response.json())
-    //         else{
-    //             console.log ("Status ",response.status)
-    //             reject( response.message )
-    //         }
-    //     })
-    // }
-
-    initURL ( _city_ ) {
+    initURL ( cityN ) {
         let source = "https://api.openweathermap.org/data/2.5/weather?"
         let appid = "5ebc9334e1933914b46a2ba252a3ea99"
         let units = "metric"
-        return `${source}q=${_city_}&appid=${appid}&units=${units}`
+        return `${source}q=${cityN}&appid=${appid}&units=${units}`
     }
 
-    getData ( c ) {
-        var URL = this.initURL( c )
-        return  this.promise( URL )
-                        .then ( response => {
-                            this.weatherData = response
-                        })
-                        .catch (error => {
-                            JSON.stringify(this.weatherData = {
-                                "weather": [
-                                  {
-                                    "description": "Unknown",
-                                    "icon": "Unknown"
-                                  }
-                                ],
-                                "main": {
-                                  "temp": "NaN",
-                                  "pressure": "NaN",
-                                  "humidity": "NaN",
-                                  "temp_min": "NaN",
-                                  "temp_max": "NaN"
-                                },
-                                "wind": {
-                                  "speed": "NaN"
-                                },
-                                "clouds": {
-                                  "all": "NaN"
-                                },
-                                "sys": {
-                                  "country": "",
-                                },
-                                "dt": "NaN",
-                                "name": "City not found"
-                            })
-                            console.error ( error )
-                        })
+    async getData ( cityN = "kharkiv" ) {
+        var URL = this.initURL( cityN )
+
+        return await fetch( URL )
+            .then(response => {
+                if (response.status === 200){
+                    response.json()
+                        .then(respon => this.updateDate(respon))
+                } else {
+                  this.wrapper.remove()
+
+                  this.shadow.innerHTML += `<error-element city="${this.cityName}"></error-element>`
+                  // let elemError = document.createElement("error-element")
+                  // this.shadow.appendChild(elemError)
+
+                  setTimeout( function() {
+                      this.remove()
+                  }.bind(this), 3000);
+
+                  console.error ( `Error ${response.status}: City not found`  )
+                }
+            })
     }
 
-    async  promise ( param ) {
-        let response = await fetch ( param )
-        return new Promise ( function ( resolve, reject ) {
-            response.status === 200 ?
-                resolve( response.json() ) :
-                reject( response.message )
-        })
-    }
+    updateDate( weather ) {
+        this.srcPic =  `https://openweathermap.org/img/w/${weather.weather[0].icon}.png`
+        this.date =  this.convertData(weather.dt)
+        this.cityName = `${weather.name}, ${weather.sys.country} `
+        this.temp =  Math.round(weather.main.temp)
+        this.clouds = weather.weather[0].description
+        this.pressure = weather.main.pressure
+        this.humidity = weather.main.humidity
+        this.cloudness = weather.clouds.all
+        this.wind_speed = weather.wind.speed
+        this.min_temp = weather.main.temp_min
+        this.max_temp = weather.main.temp_max
 
-
-
-    updateDate() {
-        let pic = this.shadow.lastElementChild.children[0].children[0]
-        let wtr = this.shadow.lastElementChild.children[0].children[1]
-        let additional = this.shadow.children[1].children[1]
-
-        pic.children[0].src = `https://openweathermap.org/img/w/${this.weatherData.weather[0].icon}.png`
-        wtr.children[0].innerHTML = this.convertData(this.weatherData.dt)
-        wtr.children[1].innerHTML = `${this.weatherData.name}, ${this.weatherData.sys.country}`
-        wtr.children[2].innerHTML = `${Math.round(this.weatherData.main.temp)}°C`
-        wtr.children[3].innerHTML = `${this.weatherData.weather[0].description}`
-
-        additional.children[0].children[1].innerHTML = `${this.weatherData.main.pressure}hPa`
-        additional.children[2].children[1].innerHTML = `${this.weatherData.main.humidity}%`
-        additional.children[4].children[1].innerHTML = `${this.weatherData.clouds.all}%`
-        additional.children[6].children[1].innerHTML = `${this.weatherData.wind.speed}m/s`
-        additional.children[8].children[1].innerHTML = `${this.weatherData.main.temp_min}°C`
-        additional.children[10].children[1].innerHTML = `${this.weatherData.main.temp_max}°C`
+        this.refillingForm()
     }
 
     convertData( dt ){
@@ -285,15 +235,6 @@ class WeatherElement extends HTMLElement {
         let day = date.getDate()
         let weekD = date.toString().split(" ")[0]
         return `${weekD} ${day} ${month}`
-    }
-
-    async setData (param) {
-        await this.getData(param)
-        await this.updateDate()
-    }
-
-    close () {
-        this.remove()
     }
 }
 

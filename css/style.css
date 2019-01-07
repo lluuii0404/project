@@ -1,63 +1,57 @@
 *, *::before, *::after {
 	box-sizing: border-box;
 }
-html{
+html, body{
   height: 100vh;
   font-family: 'Neuton', serif;
   font-size: 10px;
   min-width: 320px;
-  transition: all .5s ease-in-out;
+	transition: all .5s ease-in-out;
 }
-
-body{
-  background-image: url(http://www.machapp.net/images/wallpapers/tcw-wallpaper-02.jpg);
-  background-repeat: no-repeat;
-  background-position: center;
-	background-attachment: fixed;
-  background-size: cover;
-  transition: all .5s ease-in-out;
+.sky {
+  animation:zoomIn 30s linear infinite alternate;
+  background-image:url(http://www.wellness-et-sante.ch/wp-content/uploads/2018/06/sun-clouds-blue-sky-14641020076aM.jpg);
+	background-size:cover;
+  height:100vh;
+  position:fixed;
+  width:100vw;
 }
-
+.rain {
+  animation:zoomIn 30s linear infinite alternate-reverse;
+  /* background-image:url(https://st3.depositphotos.com/4918199/16098/v/600/depositphotos_160987100-stock-video-a-heavy-rain-with-gusts.jpg); */
+	background-image:url(https://i.pinimg.com/originals/dd/a5/e0/dda5e035e316382c20caa72b59cabfb8.jpg);
+	background-size:cover;
+  height:100vh;
+  opacity:.3;
+  position:fixed;
+  width:100vw;
+}
 .header {
   height: 12vh;
-  background-color: #00000075;
+  background-color: #ffffff90;
   text-align: center;
   position: relative;
-  padding-top: 2.7vh;
+  padding-top: 2.3vh;
   margin-bottom: 5vh;
   width: 100%;
 }
-
 .search-btn {
   width: 40px;
   height:40px;
-  /* color: #eee; */
-  color: #ddd;
+  color: #999;
 }
-/* .search-txt {
-  color: red;
-  height: 40px;
-  border-style: none;
-  outline:none;
-  padding-right: 3px;
-  padding-left: 3px;
-  text-align: center;
-  width: 90%;
-  min-width: 270px;
-  border-radius: 10px;
-} */
 .search {
   position: relative;
   margin: 0 auto;
   width: 50%;
   min-width: 300px;
-  font-size: 2em;
+  font-size: 1.8em;
 }
 .search::after {
   content: attr(data-text);
   line-height: 0;
   height: 0;
-  border-bottom: 3px solid #fff;
+  border-bottom: 3px solid #55f;
   position: absolute;
   left: 0;
   bottom: 0;
@@ -66,9 +60,8 @@ body{
   user-select: none;
   color: transparent;
 }
-
 input {
-  color: #ddd;
+  color: #333;
   border: none;
   padding: 0.5em 0;
   border-radius: 0;
@@ -88,14 +81,34 @@ input {
 }
 
 @media screen and (max-width: 700px){
-	html, body{
+	/* html, body{
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
     height: 100vh;
     transition: all .5s ease-in-out;
+  } */
+	.header {
+	  height: 70px;
+		padding-top: 1.8vh;
+		transition: all .5s ease-in-out;
+	}
+}
+
+@media screen and (min-width: 700px){
+	.header {
+	  height: 10vh;
+		padding-top: 2vh;
+		transition: all .5s ease-in-out;
+	}
+}
+
+@keyframes zoomIn {
+  0% {
+    transform:scale(1);
   }
-
-
+  100% {
+    transform:scale(1.5);
+  }
 }
