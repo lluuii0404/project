@@ -23,7 +23,7 @@ class WeatherElement extends HTMLElement {
 
         let style = document.createElement("style")
         style.textContent = `
-            .wrapper {
+        .wrapper {
       		max-width: 240px;
       		min-width: 240px;
       		border-radius: 30px;
@@ -36,11 +36,11 @@ class WeatherElement extends HTMLElement {
       		background: rgba(255,255,255,0.45);
       		font-size: 10px;
       		position: relative;
-               margin: 0 2vw 2rem 2vw;
-               transition: all .5s ease-in-out;
-      	  }
-      	  .header-weather {
-      	     display: flex;
+          margin: 0 2vw 2rem 2vw;
+          transition: all .5s ease-in-out;
+      	}
+      	.header-weather {
+      	  display: flex;
       		justify-content: space-around;
       		align-items: center;
       		flex-direction: row;
@@ -49,31 +49,31 @@ class WeatherElement extends HTMLElement {
       		box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.3);
       		padding: 10px 0;
       		margin-bottom: 1em;
-      	  }
-      	  .current_icon {
+      	}
+      	.current_icon {
       		padding-left: 5px;
       		width: 100px;
-      	  }
-      	  .description span {
+      	}
+      	.description span {
       		display: block;
       		margin-right: 10px;
       		text-align: center;
-      	  }
-      	  .current_city {
+      	}
+      	.current_city {
       		font-size: 22px;
-               font-weight: bold;
-      	  }
-      	  .current_temp {
+          font-weight: bold;
+      	}
+      	.current_temp {
       		font-size: 44px;
-      	  }
-      	  .current_desc {
+      	}
+      	.current_desc {
       		font-size: 18px;
-      	  }
-      	  .current_date {
+      	}
+      	.current_date {
       		font-size: 14px;
-      	  }
+      	}
 
-      	  .additional_desc {
+      	.additional_desc {
       		display: flex;
       		justify-content: space-between;
       		flex-direction: column;
@@ -82,24 +82,23 @@ class WeatherElement extends HTMLElement {
       		font-size: 18px;
       		box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.3);
       		border-radius: 30px;
-      	  }
-      	  .desc {
+      	}
+      	.desc {
       		display: flex;
       		justify-content: space-between;
       		width: 65%;
       		padding: 15px 5px;
-      	  }
-      	  hr {
+      	}
+      	hr {
       		margin: 0;
       		width: 75%;
       		border: 0.5px solid black;
-      	  }
-
-            button {
-               margin: 0 ;
-       	     padding: 0;
-               position: absolute;
-               display: block;
+      	}
+        button {
+          margin: 0 ;
+       	  padding: 0;
+          position: absolute;
+          display: block;
       		top: -20px;
       		right: -15px;
       		width: 30px;
@@ -108,18 +107,18 @@ class WeatherElement extends HTMLElement {
        		background: #ffffff00;
       		border-style: none;
        		outline: none;
-        		color: #000000;
-               font-size: 30px;
-               z-index:100;
-            }
-            error-element {
-               margin: 0 auto;
-               position: absolute;
-               bottom: 5vw;
-               right: 5vw;
-               z-index: 10;
-               transition: all .5s ease-in-out;
-            }
+        	color: #000000;
+          font-size: 30px;
+          z-index:100;
+        }
+        error-element {
+          margin: 0 auto;
+          position: absolute;
+          bottom: 5vw;
+          right: 5vw;
+          z-index: 10;
+          transition: all .5s ease-in-out;
+        }
         `
 
         this.shadow.appendChild ( style )
@@ -162,23 +161,23 @@ class WeatherElement extends HTMLElement {
     					<span>Wind speed</span>
     					<span>${this.wind_speed}m/s</span>
     				</div>
-                    <hr>
+            <hr>
     				<div class="desc">
     					<span>Min temp</span>
     					<span>${this.min_temp}°C</span>
     				</div>
-                    <hr>
+            <hr>
     				<div class="desc">
     					<span>Max temp</span>
     					<span>${this.max_temp}°C</span>
     				</div>
     			</div>
-               <button > x </button>
+          <button > x </button>
         `
         this.wrapper.querySelector("button")
             .onclick = function (event) {
                   this.remove()
-              }.bind(this)
+            }.bind(this)
     }
 
     initURL ( cityN ) {
